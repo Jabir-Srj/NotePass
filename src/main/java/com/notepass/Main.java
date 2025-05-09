@@ -1,6 +1,7 @@
 package com.notepass;
 
 import com.notepass.util.DataStorage;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,8 +16,10 @@ public class Main extends Application {
         DataStorage.getInstance();
         
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+        Scene scene = new Scene(root, 600, 400);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         primaryStage.setTitle("NotePass - Login");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

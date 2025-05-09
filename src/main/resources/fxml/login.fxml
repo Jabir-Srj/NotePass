@@ -14,7 +14,9 @@
         <Button fx:id="darkModeButton" text="🌙 Dark Mode" onAction="#handleDarkMode"/>
     </HBox>
 
-    <Label text="NotePass" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <HBox alignment="CENTER" maxWidth="Infinity" HBox.hgrow="ALWAYS">
+        <Label text="NotePass" styleClass="notepass-title" maxWidth="1.0E7" alignment="CENTER"/>
+    </HBox>
     
     <VBox spacing="10" maxWidth="300">
         <TextField fx:id="usernameField" promptText="Username"/>

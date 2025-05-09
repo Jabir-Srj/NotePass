@@ -70,7 +70,7 @@ run.bat
 
 ## Security Features
 
-- Passwords are hashed using BCrypt
+- Passwords are encrypted with BCrypt
 - User authentication required for access
 
 ## Issues so Far
@@ -83,3 +83,6 @@ run.bat
 ## Contributing
 
 Feel free to submit issues and enhancement requests! 
+
+## Credits
+https://github.com/xerial/sqlite-jdbc

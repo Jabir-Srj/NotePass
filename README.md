@@ -70,15 +70,15 @@ run.bat
 
 ## Security Features
 
-- Passwords are encrypted with BCrypt
+- Passwords and data are encrypted with BCrypt and a simple SQLite database
 - User authentication required for access
 
 ## Issues so Far
    - Buggy darkmode
+   - Small bug where password is revealed in terminal
 
 ## Upcoming Features
-   - Better UI interface
-   - Better security using an encrypted database (currently using partially encrypted xml file to store data and login info) 
+   - Better UI interface 
 
 ## Contributing
 

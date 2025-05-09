@@ -4,26 +4,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.notepass.controller.LoginController">
+<VBox fx:id="rootContainer" spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.LoginController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="NotePass Login" style="-fx-font-size: 24px;"/>
-    
-    <GridPane vgap="10" hgap="10">
-        <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        
-        <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    </GridPane>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Login" onAction="#handleLogin"/>
-        <Button text="Register" onAction="#handleRegister"/>
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="darkModeButton" text="🌙 Dark Mode" onAction="#handleDarkMode"/>
     </HBox>
+
+    <Label text="NotePass" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    
+    <VBox spacing="10" maxWidth="300">
+        <TextField fx:id="usernameField" promptText="Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Login" onAction="#handleLogin" HBox.hgrow="ALWAYS"/>
+            <Button text="Register" onAction="#handleRegister" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
 
     <Label fx:id="messageLabel" style="-fx-text-fill: red;"/>
 </VBox> 

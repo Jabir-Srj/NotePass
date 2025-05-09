@@ -63,6 +63,13 @@ public class DataStorage {
         saveData();
     }
 
+    public User getUser(String username) {
+        return users.stream()
+            .filter(user -> user.getUsername().equals(username))
+            .findFirst()
+            .orElse(null);
+    }
+
     public static class User {
         private String username;
         private String password;

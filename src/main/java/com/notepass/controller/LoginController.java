@@ -1,79 +1,98 @@
 package com.notepass.controller;
 
 import com.notepass.util.DataStorage;
+import com.notepass.util.ThemeManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.mindrot.jbcrypt.BCrypt;
+import javafx.scene.layout.VBox;
 
 public class LoginController {
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Label messageLabel;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button darkModeButton;
+    @FXML private VBox rootContainer;
+
+    public void initialize() {
+        // Set initial dark mode button text
+        updateDarkModeButtonText();
+        
+        // Apply current theme
+        ThemeManager.applyTheme(rootContainer);
+    }
 
     @FXML
-    public void handleLogin() {
+    private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Please enter both username and password");
+            showAlert("Error", "Please enter both username and password");
             return;
         }
 
-        DataStorage.User user = DataStorage.getInstance()
-                .findUser(username)
-                .orElse(null);
-
-        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
-            openHomePage(user);
+        DataStorage.User user = DataStorage.getInstance().getUser(username);
+        if (user != null && user.getPassword().equals(password)) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+                Parent root = loader.load();
+                
+                HomeController homeController = loader.getController();
+                homeController.setUser(user);
+                
+                Stage stage = (Stage) usernameField.getScene().getWindow();
+                stage.setTitle("NotePass - Home");
+                stage.setScene(new Scene(root, 800, 600));
+            } catch (Exception e) {
+                showAlert("Error", "Failed to load home screen: " + e.getMessage());
+            }
         } else {
-            messageLabel.setText("Invalid username or password");
+            showAlert("Error", "Invalid username or password");
         }
     }
 
     @FXML
-    public void handleRegister() {
+    private void handleRegister() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            messageLabel.setText("Please enter both username and password");
+            showAlert("Error", "Please enter both username and password");
             return;
         }
 
-        if (DataStorage.getInstance().findUser(username).isPresent()) {
-            messageLabel.setText("Username already exists");
+        if (DataStorage.getInstance().getUser(username) != null) {
+            showAlert("Error", "Username already exists");
             return;
         }
 
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        DataStorage.User newUser = new DataStorage.User(username, hashedPassword);
+        DataStorage.User newUser = new DataStorage.User(username, password);
         DataStorage.getInstance().addUser(newUser);
-        messageLabel.setText("Registration successful! Please login.");
+        DataStorage.getInstance().saveData();
+
+        showAlert("Success", "Registration successful! Please login.");
+        usernameField.clear();
+        passwordField.clear();
     }
 
-    private void openHomePage(DataStorage.User user) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
-            Parent root = loader.load();
-            
-            HomeController controller = loader.getController();
-            controller.setUser(user);
-            
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setTitle("NotePass - Home");
-            stage.setScene(new Scene(root, 800, 600));
-        } catch (Exception e) {
-            messageLabel.setText("Error loading home page: " + e.getMessage());
-        }
+    @FXML
+    private void handleDarkMode() {
+        ThemeManager.toggleDarkMode(rootContainer);
+        updateDarkModeButtonText();
+    }
+
+    private void updateDarkModeButtonText() {
+        darkModeButton.setText(ThemeManager.isDarkMode() ? "☀️ Light Mode" : "🌙 Dark Mode");
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

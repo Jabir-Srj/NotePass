@@ -20,7 +20,7 @@
         <VBox spacing="10" HBox.hgrow="ALWAYS">
             <Label text="Notes" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
             <TextField fx:id="noteTitleField" promptText="Note Title"/>
-            <TextArea fx:id="noteContentArea" promptText="Note Content" VBox.vgrow="ALWAYS"/>
+            <TextArea fx:id="noteContentArea" promptText="Note Content" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: -fx-background;"/>
             <Button text="Add Note" onAction="#handleAddNote"/>
             <ListView fx:id="notesListView" VBox.vgrow="ALWAYS"/>
         </VBox>
@@ -35,7 +35,7 @@
                 <TextField fx:id="visiblePasswordField" promptText="Password" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="showPasswordButton" text="Show Password" onAction="#handleShowPassword"/>
             </HBox>
-            <TextArea fx:id="passwordNotesArea" promptText="Additional Notes" VBox.vgrow="ALWAYS"/>
+            <TextArea fx:id="passwordNotesArea" promptText="Additional Notes" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: -fx-background;"/>
             <Button text="Save Password" onAction="#handleSavePassword"/>
             <ListView fx:id="passwordsListView" VBox.vgrow="ALWAYS"/>
         </VBox>

@@ -1,6 +1,7 @@
 package com.notepass.controller;
 
 import com.notepass.util.DataStorage;
+import com.notepass.util.ThemeManager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +22,6 @@ import javafx.stage.Stage;
 public class HomeController {
     private DataStorage.User user;
     private boolean isPasswordVisible = false;
-    private boolean isDarkMode = false;
     
     @FXML private TextField noteTitleField;
     @FXML private TextArea noteContentArea;
@@ -43,7 +43,10 @@ public class HomeController {
         visiblePasswordField.setManaged(false);
         
         // Set initial dark mode button text
-        darkModeButton.setText("🌙 Dark Mode");
+        updateDarkModeButtonText();
+        
+        // Apply current theme
+        ThemeManager.applyTheme(rootContainer);
     }
 
     public void setUser(DataStorage.User user) {
@@ -86,57 +89,12 @@ public class HomeController {
 
     @FXML
     private void handleDarkMode() {
-        isDarkMode = !isDarkMode;
-        
-        if (isDarkMode) {
-            // Apply dark mode styles
-            rootContainer.setStyle("-fx-background-color: #2b2b2b;");
-            darkModeButton.setText("☀️ Light Mode");
-            
-            // Style for all text fields and areas
-            String darkStyle = "-fx-background-color: #3c3f41; -fx-text-fill: white; -fx-prompt-text-fill: #a9a9a9;";
-            noteTitleField.setStyle(darkStyle);
-            noteContentArea.setStyle(darkStyle);
-            passwordTitleField.setStyle(darkStyle);
-            passwordUsernameField.setStyle(darkStyle);
-            passwordField.setStyle(darkStyle);
-            visiblePasswordField.setStyle(darkStyle);
-            passwordNotesArea.setStyle(darkStyle);
-            
-            // Style for list views
-            String listViewDarkStyle = "-fx-background-color: #3c3f41; -fx-text-fill: white;";
-            notesListView.setStyle(listViewDarkStyle);
-            passwordsListView.setStyle(listViewDarkStyle);
-            
-            // Style for buttons
-            String buttonDarkStyle = "-fx-background-color: #4c5052; -fx-text-fill: white;";
-            showPasswordButton.setStyle(buttonDarkStyle);
-            darkModeButton.setStyle(buttonDarkStyle);
-            
-            // Style for labels
-            String labelDarkStyle = "-fx-text-fill: white;";
-            rootContainer.lookupAll(".label").forEach(node -> node.setStyle(labelDarkStyle));
-        } else {
-            // Reset to light mode
-            rootContainer.setStyle("");
-            darkModeButton.setText("🌙 Dark Mode");
-            
-            // Reset all styles
-            noteTitleField.setStyle("");
-            noteContentArea.setStyle("");
-            passwordTitleField.setStyle("");
-            passwordUsernameField.setStyle("");
-            passwordField.setStyle("");
-            visiblePasswordField.setStyle("");
-            passwordNotesArea.setStyle("");
-            notesListView.setStyle("");
-            passwordsListView.setStyle("");
-            showPasswordButton.setStyle("");
-            darkModeButton.setStyle("");
-            
-            // Reset label styles
-            rootContainer.lookupAll(".label").forEach(node -> node.setStyle(""));
-        }
+        ThemeManager.toggleDarkMode(rootContainer);
+        updateDarkModeButtonText();
+    }
+
+    private void updateDarkModeButtonText() {
+        darkModeButton.setText(ThemeManager.isDarkMode() ? "☀️ Light Mode" : "🌙 Dark Mode");
     }
 
     private void handleNoteSelection(MouseEvent event) {

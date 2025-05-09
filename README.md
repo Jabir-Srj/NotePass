@@ -30,6 +30,18 @@ mvn clean package
 ```bash
 mvn javafx:run
 ```
+## Setup (for non windows devices)
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/NotePass.git
+cd NotePass
+```
+
+2. Run the application:
+```bash
+run.bat
+```
 
 ## Usage
 

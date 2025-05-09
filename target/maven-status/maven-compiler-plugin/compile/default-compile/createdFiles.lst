@@ -4,5 +4,6 @@ com\notepass\util\DataStorage$Note.class
 com\notepass\util\DataStorage$Password.class
 com\notepass\util\DataStorage$User.class
 com\notepass\util\ThemeManager.class
+com\notepass\util\DatabaseUtil.class
 com\notepass\controller\LoginController.class
 com\notepass\util\DataStorage.class

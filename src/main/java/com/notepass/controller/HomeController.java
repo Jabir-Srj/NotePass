@@ -1,5 +1,7 @@
 package com.notepass.controller;
 
+import java.util.List;
+
 import com.notepass.util.DataStorage;
 import com.notepass.util.ThemeManager;
 
@@ -36,6 +38,9 @@ public class HomeController {
     @FXML private Button showPasswordButton;
     @FXML private Button darkModeButton;
     @FXML private VBox rootContainer;
+
+    private List<DataStorage.Note> notes;
+    private List<DataStorage.Password> passwords;
 
     public void initialize() {
         // Initially hide the visible password field
@@ -100,7 +105,7 @@ public class HomeController {
     private void handleNoteSelection(MouseEvent event) {
         String selectedTitle = notesListView.getSelectionModel().getSelectedItem();
         if (selectedTitle != null) {
-            user.getNotes().stream()
+            notes.stream()
                 .filter(note -> note.getTitle().equals(selectedTitle))
                 .findFirst()
                 .ifPresent(note -> {
@@ -113,7 +118,7 @@ public class HomeController {
     private void handlePasswordSelection(MouseEvent event) {
         String selectedTitle = passwordsListView.getSelectionModel().getSelectedItem();
         if (selectedTitle != null) {
-            user.getPasswords().stream()
+            passwords.stream()
                 .filter(pwd -> pwd.getTitle().equals(selectedTitle))
                 .findFirst()
                 .ifPresent(pwd -> {
@@ -137,22 +142,18 @@ public class HomeController {
         }
 
         // Check if note with same title exists
-        boolean noteExists = user.getNotes().stream()
-            .anyMatch(note -> note.getTitle().equals(title));
+        DataStorage.Note existing = notes.stream()
+            .filter(note -> note.getTitle().equals(title))
+            .findFirst().orElse(null);
 
-        if (noteExists) {
-            // Update existing note
-            user.getNotes().stream()
-                .filter(note -> note.getTitle().equals(title))
-                .findFirst()
-                .ifPresent(note -> note.setContent(content));
+        if (existing != null) {
+            existing.setContent(content);
+            DataStorage.getInstance().addOrUpdateNote(user.getId(), existing);
         } else {
-            // Add new note
             DataStorage.Note note = new DataStorage.Note(title, content);
-            user.getNotes().add(note);
+            DataStorage.getInstance().addOrUpdateNote(user.getId(), note);
         }
         
-        DataStorage.getInstance().saveData();
         noteTitleField.clear();
         noteContentArea.clear();
         loadNotes();
@@ -163,7 +164,7 @@ public class HomeController {
         String title = passwordTitleField.getText();
         String username = passwordUsernameField.getText();
         String password = isPasswordVisible ? visiblePasswordField.getText() : passwordField.getText();
-        String notes = passwordNotesArea.getText();
+        String notesText = passwordNotesArea.getText();
 
         if (title.isEmpty() || password.isEmpty()) {
             showAlert("Error", "Please enter at least a title and password");
@@ -171,26 +172,20 @@ public class HomeController {
         }
 
         // Check if password with same title exists
-        boolean passwordExists = user.getPasswords().stream()
-            .anyMatch(pwd -> pwd.getTitle().equals(title));
+        DataStorage.Password existing = passwords.stream()
+            .filter(pwd -> pwd.getTitle().equals(title))
+            .findFirst().orElse(null);
 
-        if (passwordExists) {
-            // Update existing password
-            user.getPasswords().stream()
-                .filter(pwd -> pwd.getTitle().equals(title))
-                .findFirst()
-                .ifPresent(pwd -> {
-                    pwd.setUsername(username);
-                    pwd.setPassword(password);
-                    pwd.setNotes(notes);
-                });
+        if (existing != null) {
+            existing.setUsername(username);
+            existing.setPassword(password);
+            existing.setNotes(notesText);
+            DataStorage.getInstance().addOrUpdatePassword(user.getId(), existing);
         } else {
-            // Add new password
-            DataStorage.Password newPassword = new DataStorage.Password(title, username, password, notes);
-            user.getPasswords().add(newPassword);
+            DataStorage.Password newPassword = new DataStorage.Password(title, username, password, notesText);
+            DataStorage.getInstance().addOrUpdatePassword(user.getId(), newPassword);
         }
         
-        DataStorage.getInstance().saveData();
         passwordTitleField.clear();
         passwordUsernameField.clear();
         passwordField.clear();
@@ -214,19 +209,21 @@ public class HomeController {
     }
 
     private void loadNotes() {
-        ObservableList<String> notes = FXCollections.observableArrayList();
-        for (DataStorage.Note note : user.getNotes()) {
-            notes.add(note.getTitle());
+        notes = DataStorage.getInstance().getNotes(user.getId());
+        ObservableList<String> noteTitles = FXCollections.observableArrayList();
+        for (DataStorage.Note note : notes) {
+            noteTitles.add(note.getTitle());
         }
-        notesListView.setItems(notes);
+        notesListView.setItems(noteTitles);
     }
 
     private void loadPasswords() {
-        ObservableList<String> passwords = FXCollections.observableArrayList();
-        for (DataStorage.Password password : user.getPasswords()) {
-            passwords.add(password.getTitle());
+        passwords = DataStorage.getInstance().getPasswords(user.getId());
+        ObservableList<String> passwordTitles = FXCollections.observableArrayList();
+        for (DataStorage.Password password : passwords) {
+            passwordTitles.add(password.getTitle());
         }
-        passwordsListView.setItems(passwords);
+        passwordsListView.setItems(passwordTitles);
     }
 
     private void showAlert(String title, String content) {

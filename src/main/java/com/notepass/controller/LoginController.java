@@ -2,13 +2,17 @@ package com.notepass.controller;
 
 import com.notepass.util.DataStorage;
 import com.notepass.util.ThemeManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class LoginController {
     @FXML private TextField usernameField;
@@ -35,6 +39,10 @@ public class LoginController {
         }
 
         DataStorage.User user = DataStorage.getInstance().getUser(username);
+        if (user != null) {
+            System.out.println("DB password: [" + user.getPassword() + "]");
+            System.out.println("Entered password: [" + password + "]");
+        }
         if (user != null && user.getPassword().equals(password)) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
@@ -69,13 +77,19 @@ public class LoginController {
             return;
         }
 
-        DataStorage.User newUser = new DataStorage.User(username, password);
-        DataStorage.getInstance().addUser(newUser);
-        DataStorage.getInstance().saveData();
-
-        showAlert("Success", "Registration successful! Please login.");
-        usernameField.clear();
-        passwordField.clear();
+        try {
+            DataStorage.User newUser = new DataStorage.User(0, username, password);
+            boolean success = DataStorage.getInstance().addUser(newUser);
+            if (success) {
+                showAlert("Success", "Registration successful! Please login.");
+                usernameField.clear();
+                passwordField.clear();
+            } else {
+                showAlert("Error", "Registration failed. Username may already exist or there is a database error.");
+            }
+        } catch (Exception e) {
+            showAlert("Error", "Registration failed: " + e.getMessage());
+        }
     }
 
     @FXML

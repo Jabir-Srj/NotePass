@@ -75,10 +75,9 @@ run.bat
 - User authentication required for access
 
 ## Issues so Far
-Not able to access saved notes and passwords after they're stored
+   - Buggy darkmode
 
 ## Upcoming Features
-   - Dark mode button
    - Better UI interface
    - Better security using an encrypted database (currently using partially encrypted xml file to store data and login info) 
 

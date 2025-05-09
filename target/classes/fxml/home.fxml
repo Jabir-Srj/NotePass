@@ -4,55 +4,40 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.HomeController">
+<VBox fx:id="rootContainer" spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.HomeController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <HBox alignment="CENTER_LEFT" spacing="10">
-        <Label text="NotePass" style="-fx-font-size: 24px;"/>
+    <HBox spacing="10" alignment="CENTER_RIGHT">
         <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="darkModeButton" text="🌙 Dark Mode" onAction="#handleDarkMode"/>
         <Button text="Logout" onAction="#handleLogout"/>
     </HBox>
 
-    <TabPane VBox.vgrow="ALWAYS">
-        <!-- Notes Tab -->
-        <Tab text="Notes" closable="false">
-            <VBox spacing="10">
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <TextField fx:id="noteTitleField" promptText="Note Title" HBox.hgrow="ALWAYS"/>
-                    <Button text="Add Note" onAction="#handleAddNote"/>
-                </HBox>
-                
-                <TextArea fx:id="noteContentArea" promptText="Note Content" VBox.vgrow="ALWAYS"/>
-                
-                <ListView fx:id="notesListView" VBox.vgrow="ALWAYS"/>
-            </VBox>
-        </Tab>
+    <HBox spacing="20">
+        <!-- Notes Section -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Notes" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <TextField fx:id="noteTitleField" promptText="Note Title"/>
+            <TextArea fx:id="noteContentArea" promptText="Note Content" VBox.vgrow="ALWAYS"/>
+            <Button text="Add Note" onAction="#handleAddNote"/>
+            <ListView fx:id="notesListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
 
-        <!-- Passwords Tab -->
-        <Tab text="Passwords" closable="false">
-            <VBox spacing="10">
-                <GridPane vgap="10" hgap="10">
-                    <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="passwordTitleField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    
-                    <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="passwordUsernameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                    
-                    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    
-                    <Label text="Notes:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <TextArea fx:id="passwordNotesArea" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-                
-                <HBox spacing="10" alignment="CENTER_RIGHT">
-                    <Button text="Save Password" onAction="#handleSavePassword"/>
-                </HBox>
-                
-                <ListView fx:id="passwordsListView" VBox.vgrow="ALWAYS"/>
-            </VBox>
-        </Tab>
-    </TabPane>
+        <!-- Passwords Section -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Passwords" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <TextField fx:id="passwordTitleField" promptText="Title"/>
+            <TextField fx:id="passwordUsernameField" promptText="Username"/>
+            <HBox spacing="10">
+                <PasswordField fx:id="passwordField" promptText="Password" HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="visiblePasswordField" promptText="Password" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="showPasswordButton" text="Show Password" onAction="#handleShowPassword"/>
+            </HBox>
+            <TextArea fx:id="passwordNotesArea" promptText="Additional Notes" VBox.vgrow="ALWAYS"/>
+            <Button text="Save Password" onAction="#handleSavePassword"/>
+            <ListView fx:id="passwordsListView" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
 </VBox> 

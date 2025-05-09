@@ -77,7 +77,7 @@ run.bat
 ## Issues so Far
 Not able to access saved notes and passwords after they're stored
 
-**Upcoming Features**
+## Upcoming Features
    - Dark mode button
    - Better UI interface
    - Better security using an encrypted database (currently using partially encrypted xml file to store data and login info) 

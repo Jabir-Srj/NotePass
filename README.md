@@ -47,7 +47,6 @@ run.bat
 
 1. **Registration**
    - Launch the application
-   - Click "Register" to create a new account
    - Enter your desired username and password
    - Click "Register" to create the account
 

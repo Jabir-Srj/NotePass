@@ -74,7 +74,7 @@ run.bat
 - Passwords are hashed using BCrypt
 - User authentication required for access
 
-**Issues so Far**
+## Issues so Far
 Not able to access saved notes and passwords after they're stored
 
 **Upcoming Features**

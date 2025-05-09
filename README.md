@@ -7,8 +7,6 @@ NotePass is a Java-based application that helps you manage your notes and passwo
 - User authentication with secure password hashing
 - Notes management with title and content
 - Password management with title, username, password, and notes
-- SQLite database for data persistence
-- Modern JavaFX user interface
 
 ## Requirements
 

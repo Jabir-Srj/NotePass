@@ -77,9 +77,6 @@ run.bat
    - Buggy darkmode
    - Small bug where password is revealed in terminal
 
-## Upcoming Features
-   - Better UI interface 
-
 ## Contributing
 
 Feel free to submit issues and enhancement requests! 

@@ -30,7 +30,7 @@ mvn clean package
 ```bash
 mvn javafx:run
 ```
-## Setup (for non windows devices)
+## Setup (for windows devices)
 
 1. Clone the repository:
 ```bash

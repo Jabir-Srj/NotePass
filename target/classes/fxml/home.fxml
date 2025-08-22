@@ -4,40 +4,59 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox fx:id="rootContainer" spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.HomeController">
+<VBox fx:id="rootContainer" spacing="25" styleClass="spaced-container" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.HomeController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="25" right="25" bottom="25" left="25"/>
     </padding>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox spacing="15" alignment="CENTER_RIGHT" styleClass="header-bar">
         <Region HBox.hgrow="ALWAYS"/>
         <Button fx:id="darkModeButton" text="🌙 Dark Mode" onAction="#handleDarkMode"/>
-        <Button text="Logout" onAction="#handleLogout"/>
+        <Button text="Logout" styleClass="danger-button" onAction="#handleLogout"/>
     </HBox>
 
-    <HBox spacing="20">
+    <HBox spacing="30">
         <!-- Notes Section -->
-        <VBox spacing="10" HBox.hgrow="ALWAYS">
-            <Label text="Notes" styleClass="section-title"/>
-            <TextField fx:id="noteTitleField" promptText="Note Title"/>
-            <TextArea fx:id="noteContentArea" promptText="Note Content" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: -fx-background;"/>
-            <Button text="Add Note" onAction="#handleAddNote"/>
-            <ListView fx:id="notesListView" VBox.vgrow="ALWAYS"/>
+        <VBox styleClass="content-section" spacing="20" HBox.hgrow="ALWAYS">
+            <Label text="📝 Notes" styleClass="section-title"/>
+            
+            <VBox styleClass="form-section" spacing="15">
+                <TextField fx:id="noteTitleField" promptText="Enter note title"/>
+                <TextArea fx:id="noteContentArea" promptText="Write your note content here..." 
+                         VBox.vgrow="ALWAYS" prefRowCount="6"/>
+                <Button text="Add Note" styleClass="primary-button" onAction="#handleAddNote"/>
+            </VBox>
+            
+            <VBox spacing="10">
+                <Label text="Your Notes" style="-fx-font-weight: 600; -fx-font-size: 16px;"/>
+                <ListView fx:id="notesListView" VBox.vgrow="ALWAYS" prefHeight="200"/>
+            </VBox>
         </VBox>
 
         <!-- Passwords Section -->
-        <VBox spacing="10" HBox.hgrow="ALWAYS">
-            <Label text="Passwords" styleClass="section-title"/>
-            <TextField fx:id="passwordTitleField" promptText="Title"/>
-            <TextField fx:id="passwordUsernameField" promptText="Username"/>
-            <HBox spacing="10">
-                <PasswordField fx:id="passwordField" promptText="Password" HBox.hgrow="ALWAYS"/>
-                <TextField fx:id="visiblePasswordField" promptText="Password" HBox.hgrow="ALWAYS"/>
-                <Button fx:id="showPasswordButton" text="Show Password" onAction="#handleShowPassword"/>
-            </HBox>
-            <TextArea fx:id="passwordNotesArea" promptText="Additional Notes" VBox.vgrow="ALWAYS" style="-fx-control-inner-background: -fx-background;"/>
-            <Button text="Save Password" onAction="#handleSavePassword"/>
-            <ListView fx:id="passwordsListView" VBox.vgrow="ALWAYS"/>
+        <VBox styleClass="content-section" spacing="20" HBox.hgrow="ALWAYS">
+            <Label text="🔐 Passwords" styleClass="section-title"/>
+            
+            <VBox styleClass="form-section" spacing="15">
+                <TextField fx:id="passwordTitleField" promptText="Service/Website name"/>
+                <TextField fx:id="passwordUsernameField" promptText="Username or email"/>
+                
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <PasswordField fx:id="passwordField" promptText="Password" HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="visiblePasswordField" promptText="Password" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="showPasswordButton" text="👁" onAction="#handleShowPassword" 
+                           style="-fx-font-size: 16px; -fx-min-width: 40px; -fx-padding: 8;"/>
+                </HBox>
+                
+                <TextArea fx:id="passwordNotesArea" promptText="Additional notes (optional)" 
+                         prefRowCount="3"/>
+                <Button text="Save Password" styleClass="primary-button" onAction="#handleSavePassword"/>
+            </VBox>
+            
+            <VBox spacing="10">
+                <Label text="Saved Passwords" style="-fx-font-weight: 600; -fx-font-size: 16px;"/>
+                <ListView fx:id="passwordsListView" VBox.vgrow="ALWAYS" prefHeight="200"/>
+            </VBox>
         </VBox>
     </HBox>
 </VBox> 

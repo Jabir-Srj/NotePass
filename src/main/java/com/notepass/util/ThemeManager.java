@@ -33,6 +33,9 @@ public class ThemeManager {
     
     public static void applyTheme(Pane rootContainer) {
         if (isDarkMode) {
+            // Add dark mode CSS class for better styling
+            rootContainer.getStyleClass().add("dark-mode");
+            
             // Apply dark mode styles
             rootContainer.setStyle("-fx-background-color: " + DARK_BACKGROUND + ";");
             
@@ -69,6 +72,9 @@ public class ThemeManager {
             applyStylesToNodes(rootContainer, inputDarkStyle, textAreaDarkStyle, listViewDarkStyle, buttonDarkStyle, labelDarkStyle);
             
         } else {
+            // Remove dark mode CSS class
+            rootContainer.getStyleClass().remove("dark-mode");
+            
             // Reset to light mode
             rootContainer.setStyle("");
             resetStyles(rootContainer);

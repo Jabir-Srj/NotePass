@@ -4,29 +4,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox fx:id="rootContainer" spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.LoginController">
+<VBox fx:id="rootContainer" spacing="30" alignment="CENTER" styleClass="spaced-container" xmlns:fx="http://javafx.com/fxml" fx:controller="com.notepass.controller.LoginController">
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="40" right="40" bottom="40" left="40"/>
     </padding>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox spacing="15" alignment="CENTER_RIGHT" styleClass="header-bar">
         <Region HBox.hgrow="ALWAYS"/>
         <Button fx:id="darkModeButton" text="🌙 Dark Mode" onAction="#handleDarkMode"/>
     </HBox>
 
-    <HBox alignment="CENTER" maxWidth="Infinity" HBox.hgrow="ALWAYS">
-        <Label text="NotePass" styleClass="notepass-title" maxWidth="1.0E7" alignment="CENTER"/>
-    </HBox>
-    
-    <VBox spacing="10" maxWidth="300">
-        <TextField fx:id="usernameField" promptText="Username"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
+    <VBox alignment="CENTER" spacing="40">
+        <Label text="NotePass" styleClass="notepass-title"/>
         
-        <HBox spacing="10" alignment="CENTER">
-            <Button text="Login" onAction="#handleLogin" HBox.hgrow="ALWAYS"/>
-            <Button text="Register" onAction="#handleRegister" HBox.hgrow="ALWAYS"/>
-        </HBox>
+        <VBox styleClass="login-container" spacing="20" alignment="CENTER">
+            <VBox styleClass="form-section" spacing="15" maxWidth="350">
+                <TextField fx:id="usernameField" promptText="Enter your username"/>
+                <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+                
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Login" styleClass="primary-button" onAction="#handleLogin" HBox.hgrow="ALWAYS"/>
+                    <Button text="Register" styleClass="secondary-button" onAction="#handleRegister" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </VBox>
+            
+            <Label fx:id="messageLabel" style="-fx-text-fill: #e74c3c; -fx-font-weight: 600;"/>
+        </VBox>
     </VBox>
-
-    <Label fx:id="messageLabel" style="-fx-text-fill: red;"/>
 </VBox> 
